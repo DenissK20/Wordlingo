@@ -7,10 +7,11 @@
   ],
   "words": [
     { "en": "bread",  "ru": "хлеб",   "nl": "brood" },
-    { "en": "cat",    "ru": "кот, кошка", "nl": "kat" },
+    { "en": "cat",    "ru": "кот", "nl": "kat" },
     { "en": "house",  "ru": "дом",    "nl": "huis" },
     { "en": "water",  "ru": "вода",   "nl": "water" },
     { "en": "window", "ru": "окно",   "nl": "raam" },
-    { "en": "book",   "ru": "книга",  "nl": "boek" }
+    { "en": "book",   "ru": "книга",  "nl": "boek" },
+    { "en": "red",    "ru": "красный", "nl": "rood"}
   ]
 }
