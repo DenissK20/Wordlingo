@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "languages": [
+    { "code": "en", "name": "Английский" },
+    { "code": "ru", "name": "Русский" },
+    { "code": "nl", "name": "Нидерландский" }
+  ],
+  "words": [
+    { "en": "bread",  "ru": "хлеб",   "nl": "brood" },
+    { "en": "cat",    "ru": "кот, кошка", "nl": "kat" },
+    { "en": "house",  "ru": "дом",    "nl": "huis" },
+    { "en": "water",  "ru": "вода",   "nl": "water" },
+    { "en": "window", "ru": "окно",   "nl": "raam" },
+    { "en": "book",   "ru": "книга",  "nl": "boek" }
+  ]
+}
