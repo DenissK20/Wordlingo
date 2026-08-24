@@ -1,0 +1,75 @@
+name: Publish dictionary
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; a half-published dictionary is worse than a stale one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate dictionary.json
+        run: python validate_dictionary.py dictionary.json
+
+  publish:
+    needs: validate
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp dictionary.json _site/dictionary.json
+          # Pages runs Jekyll by default, which would ignore some files.
+          touch _site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Confirm ETag and conditional GET
+        run: |
+          URL="${{ steps.deployment.outputs.page_url }}dictionary.json"
+          echo "Checking $URL"
+          # Pages propagation is not instant.
+          for i in $(seq 1 10); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$URL") && [ "$code" = "200" ] && break
+            sleep 10
+          done
+          etag=$(curl -sI "$URL" | tr -d '\r' | awk -F': ' 'tolower($1)=="etag"{print $2}')
+          if [ -z "$etag" ]; then
+            echo "::warning::No ETag header; the app will re-download the dictionary every sync."
+            exit 0
+          fi
+          echo "ETag: $etag"
+          status=$(curl -s -o /dev/null -w '%{http_code}' -H "If-None-Match: $etag" "$URL")
+          echo "Conditional GET returned $status"
+          [ "$status" = "304" ] || echo "::warning::Expected 304, got $status."
