@@ -397,7 +397,7 @@
     { "en": "thermometer", "ru": "градусник", "nl": "de thermometer" },
     { "en": "pharmacy", "ru": "аптека", "nl": "de apotheek" },
     { "en": "medicine", "ru": "лекарство", "nl": "het medicijn" },
-    { "en": "tablet", "ru": "таблетка", "nl": "de tablet"},
+    { "en": "tablet (medicine)", "ru": "таблетка", "nl": "de tablet (medicijn)"},
     { "en": "pill", "ru": "таблетка", "nl": "de pil" },
     { "en": "ointment", "ru": "мазь", "nl": "de zalf" },
     { "en": "liquid medicine", "ru": "микстура", "nl": "het drankje" },
